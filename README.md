@@ -14,4 +14,5 @@ Example:/playanimation playerName animation.armor_stand.hero_pose
 
 ## Vanilla Animation Name
 https://minecraft.fandom.com/zh/wiki/%E5%91%BD%E4%BB%A4/playanimation
+
 **Maybe you can use resource_packs to realise more? Well you can have a try on your own, I didn't test it before.**
