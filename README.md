@@ -10,7 +10,7 @@ Sparked by [iGxnon’s SquareLottery](https://github.com/iGxnon/SquareLottery) a
 
 /playanimation animationName duration
 
-Example:/playanimation playerName animation.armor_stand.hero_pose
+Example:/playanimation animation.armor_stand.hero_pose 4.0
 
 ## Vanilla Animation Name
 https://minecraft.fandom.com/zh/wiki/%E5%91%BD%E4%BB%A4/playanimation
