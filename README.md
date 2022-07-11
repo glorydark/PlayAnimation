@@ -14,7 +14,43 @@ Example:/playanimation animation.armor_stand.hero_pose 4.0
 
 ## Vanilla Animation Name
 https://minecraft.fandom.com/zh/wiki/%E5%91%BD%E4%BB%A4/playanimation
+### animation.armor_stand.entertain_pose
+![](entertain_pose.png)
 
 ## Make your own vanilla animation
+### animation.steve.picha
 **Look, steve is doing the splits, and its animation was made by BlockBench!**
+
 ![](picha_animation.png)
+
+### Json Example
+``` json
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.steve.picha": {
+			"animation_length": 4,
+			"bones": {
+				"RightLeg": {
+					"rotation": {
+						"0.0": [40, 0, 0],
+						"1.0": [82.5, 0, 0],
+						"2.0": [82.5, 0, 0],
+						"3.0": [45, 0, 0],
+						"4.0": [0, 0, 0]
+					}
+				},
+				"LeftLeg": {
+					"rotation": {
+						"0.0": [-37.5, 0, 0],
+						"1.0": [-77.5, 0, 0],
+						"2.0": [-77.5, 0, 0],
+						"3.0": [-42.5, 0, 0],
+						"4.0": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
+```
