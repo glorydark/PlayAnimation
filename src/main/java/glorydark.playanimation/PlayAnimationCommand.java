@@ -30,8 +30,8 @@ public class PlayAnimationCommand extends Command {
         }
         sendPacket((Player) commandSender, strings[0], Float.parseFloat(strings[1]));
         Server.getInstance().getScheduler().scheduleDelayedTask(MainClass.instance, ()->{
-            sendPacket((Player) commandSender, "animation.player.first_person.walk", Float.parseFloat(strings[1])*20); //恢复原动作
-        }, 80);
+            sendPacket((Player) commandSender, "animation.player.first_person.walk", Float.parseFloat(strings[1])); //恢复原动作
+        }, (int) Math.ceil(Float.parseFloat(strings[1])*20));
         return true;
     }
 
@@ -45,7 +45,7 @@ public class PlayAnimationCommand extends Command {
         AnimateEntityPacket packet = new AnimateEntityPacket();
         packet.setAnimation(animation);
         packet.setBlendOutTime(duration);
-        packet.setNextState("");
+        packet.setNextState("default");
         packet.setController("query.any_animation_finished");
         packet.setStopExpression("");
         packet.setStopExpressionVersion(0); //1.17.40 and newer needed!
