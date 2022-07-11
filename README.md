@@ -14,3 +14,7 @@ Example:/playanimation animation.armor_stand.hero_pose 4.0
 
 ## Vanilla Animation Name
 https://minecraft.fandom.com/zh/wiki/%E5%91%BD%E4%BB%A4/playanimation
+
+## Make your own vanilla animation
+**Look, steve is doing the splits, and its animation was made by BlockBench!**
+![Steve is doing the splits](Minecraft%202022_7_12%200_53_11.png)
