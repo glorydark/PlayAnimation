@@ -8,12 +8,15 @@ Sparked by [iGxnon’s SquareLottery](https://github.com/iGxnon/SquareLottery) a
 
 ## Command
 
-/playanimation animationName duration
+/playanimation animationName blendingOutTime
 
 Example:/playanimation animation.armor_stand.hero_pose 4.0
 
 ## Vanilla Animation Name
-https://minecraft.fandom.com/zh/wiki/%E5%91%BD%E4%BB%A4/playanimation
+[Minecraft Wiki](https://minecraft.fandom.com/wiki/Commands/playanimation)
+[Billbill Article](https://www.bilibili.com/read/cv12704097)
+[Minecraft Bedrock Vanilla Resource Pack](https://github.com/ZtechNetwork/MCBVanillaResourcePack)
+
 ### animation.armor_stand.entertain_pose
 ![](entertain_pose.png)
 
