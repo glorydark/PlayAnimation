@@ -8,7 +8,7 @@ Sparked by [iGxnon’s SquareLottery](https://github.com/iGxnon/SquareLottery) a
 
 ## Command
 
-/playanimation playerName animationName
+/playanimation animationName duration
 
 Example:/playanimation playerName animation.armor_stand.hero_pose
 
