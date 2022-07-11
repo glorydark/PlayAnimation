@@ -1,57 +1,98 @@
 package glorydark.playanimation;
 
-import cn.nukkit.Player;
-import cn.nukkit.Server;
-import cn.nukkit.command.Command;
-import cn.nukkit.command.CommandSender;
+import cn.nukkit.network.protocol.DataPacket;
+import cn.nukkit.network.protocol.ProtocolInfo;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Glorydark
- * Thanks for iGxnon's SquareLottery!
+ * @author iGxnon
+ * @date 2021/8/30
  */
-public class PlayAnimationCommand extends Command {
-    public PlayAnimationCommand(String command) {
-        super(command);
+@Getter
+@Setter
+public class AnimateEntityPacket extends DataPacket {
+
+    public static final byte NETWORK_ID = ProtocolInfo.ANIMATE_ENTITY_PACKET;
+
+    /**
+     * Expression to check if the animation needs to stop.
+     *
+     * @param stopExpression molang expression (???)
+     * @return molang expression (???)
+     */
+    private String animation;
+    /**
+     * The entity state to move to when the animation has finished playing.
+     *
+     * @param nextState state after animation has finished
+     * @return state after animation has finished
+     */
+    private String nextState;
+    /**
+     * Expression to check if the animation needs to stop.
+     *
+     * @param stopExpression molang expression (???)
+     * @return molang expression (???)
+     */
+    private String stopExpression = "";
+    /**
+     * Name of the animation controller to use.
+     *
+     * @param controller controller name
+     * @return controller name
+     */
+    private String controller = "query.any_animation_finished";
+    /**
+     * Time taken to blend out of the specified animation.
+     *
+     * @param blendOutTime time
+     * @return time
+     */
+    private float blendOutTime = 0;
+    /**
+     * Entity runtime IDs to run the animation on when sent to the client.
+     *
+     * @param runtimeEntityIds runtime entity IDs list
+     * @return runtime entity IDs list
+     */
+    private Set<Long> entityRuntimeIDs = new HashSet<>();
+
+    private int stopExpressionVersion = 0; // 需要这个才能正常播放！
+
+    // 客户端一般不会发这个包
+    @Override
+    public void decode() {
+        this.animation = this.getString();
+        this.nextState = this.getString();
+        this.stopExpression = this.getString();
+        this.controller = this.getString();
+        this.blendOutTime = this.getLFloat();
+        for (int i = 0, len = (int) this.getUnsignedVarInt(); i < len; i++) {
+            this.entityRuntimeIDs.add(this.getEntityRuntimeId());
+        }
     }
 
     @Override
-    public boolean execute(CommandSender commandSender, String s, String[] strings) {
-        if(!commandSender.isPlayer()){
-            commandSender.sendMessage("Please use it in game!");
-            return true;
+    public void encode() {
+        this.reset();
+        this.putString(this.animation);
+        this.putString(this.nextState);
+        this.putString(this.stopExpression);
+        this.putLInt(this.stopExpressionVersion); //Added (1.17.40版本以上需要这个包，帮原作者加上)
+        this.putString(this.controller);
+        this.putLFloat(this.blendOutTime);
+        this.putUnsignedVarInt(this.entityRuntimeIDs.size());
+        for (long entityRuntimeId : this.entityRuntimeIDs){
+            this.putEntityRuntimeId(entityRuntimeId);
         }
-        if(strings.length != 2){
-            commandSender.sendMessage("/playanimation AnimationName Duration");
-            commandSender.sendMessage("AnimationName: https://minecraft.fandom.com/wiki/Commands/playanimation#List_of_animations");
-            return true;
-        }
-        sendPacket((Player) commandSender, strings[0], Float.parseFloat(strings[1]));
-        Server.getInstance().getScheduler().scheduleDelayedTask(MainClass.instance, ()->{
-            sendPacket((Player) commandSender, "animation.player.first_person.walk", Float.parseFloat(strings[1])); //恢复原动作
-        }, (int) Math.ceil(Float.parseFloat(strings[1])*20));
-        return true;
     }
 
-    public void senPacket(AnimateEntityPacket packet, Player target) {
-        target.dataPacket(packet);
-    }
-
-    public void sendPacket(Player player, String animation, Float duration){
-        //By iGxnon
-        // (Now added an entry to support v1.17.40 anim)
-        AnimateEntityPacket packet = new AnimateEntityPacket();
-        packet.setAnimation(animation);
-        packet.setBlendOutTime(duration);
-        packet.setNextState("default");
-        packet.setController("query.any_animation_finished");
-        packet.setStopExpression("");
-        packet.setStopExpressionVersion(0); //1.17.40 and newer needed!
-        Set<Long> set = new HashSet<>();
-        set.add(player.getId());
-        packet.setEntityRuntimeIDs(set);
-        Server.getInstance().getOnlinePlayers().values().forEach(p -> senPacket(packet, player));
+    @Override
+    public byte pid() {
+        return NETWORK_ID;
     }
 }
